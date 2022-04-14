@@ -1,67 +1,119 @@
-import React, { useState, useEffect } from 'react'
-import { io } from "socket.io-client";
+import React, { useState, useEffect } from 'react';
+import { io } from 'socket.io-client';
+import { SOCKET_EVENT } from 'lib/constants';
+import styled from 'styled-components';
+import ChatMessage from 'components/chat/ChatMessage';
+import RoomContainer from 'components/room/RoomContainer';
+import { faker } from '@faker-js/faker';
 
-const ChatPage = () => {
-  const [msg, setMsg] = useState('')
-  const [userCount, setUserCount] = useState(0)
-  const [recieveMsg, setRecieveMsg] = useState('')
-  const socket = io('http://localhost:3000');
-  socket.connect()
+const St = {
+  ChatContainer: styled.div`
+    width: 500px;
+    border: 1px solid gray;
+    border-radius: 8px;
+  `
+};
+function useSocket(url) {
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    socket.on('usercount', (count) => {
-      setUserCount(count)
-    })
+    const socketIo = io(url);
+    setSocket(socketIo);
 
-    socket.on('message', (msg) => {
-      setRecieveMsg(recieveMsg + ' / ' + msg)
-    })
-  }, [])
+    function cleanup() {
+      socketIo.disconnect();
+    }
+    return cleanup;
+    // should only run once and not on every re-render,
+    // so pass an empty array
+  }, []);
 
-  const sendMessage = (e: any) => {
-    console.log('[masonms] sendMessage: ', msg)
-
-    socket.emit('message', msg)
-  }
-
-  return (
-    <div>
-      <ul id="messages">
-        <li id="usercount" />
-        <li>{recieveMsg}</li>
-      </ul>
-      <form id="msgform">
-        <input id="msginput" autoComplete="off" type="text" onChange={(e) => setMsg(e.target.value)} value={msg} />
-        <button type="button" onClick={sendMessage}>전송</button>
-      </form>
-    </div>
-  )
+  return socket;
 }
 
+const ChatPage = () => {
+  const [id, setId] = useState(faker.datatype.uuid());
+  const [name, setName] = useState(faker.name.firstName());
+  const [msg, setMsg] = useState('');
+  const [userCount, setUserCount] = useState(0);
+  const [messages, setMessages] = useState([{}]);
+  const [recieveMsg, setRecieveMsg] = useState('');
+  const [socket, setSocket] = useState(null);
+
+  useEffect(() => {
+    const socketIo = io('http://localhost:3000');
+    setSocket(socketIo);
+    function cleanup() {
+      if (socketIo) socketIo.disconnect();
+    }
+    return cleanup;
+    // should only run once and not on every re-render,
+    // so pass an empty array
+  }, []);
+  const sendMessage = (e: any) => {
+    e.preventDefault();
+    console.log('[masonms] sendMessage: ', msg, id, name);
+    socket.emit('message', {
+      id: id,
+      message: msg,
+      time: '',
+      user_name: name
+    });
+    setMsg('');
+  };
+
+  /* 엔터버튼 클릭시 인풋  */
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const dir = event.keyCode;
+      if (dir === 13) sendMessage(event);
+    };
+
+    window.addEventListener('keydown', handleKeyDown, false);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [sendMessage]);
+
+  useEffect(() => {
+    if (socket)
+      socket.on(SOCKET_EVENT.USER_COUNT, (count) => {
+        setUserCount(count);
+      });
+  }, [socket]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on(SOCKET_EVENT.MESSAGE, (msg) => {
+        console.log('[seo] , ', msg);
+        setMessages([...messages, msg]);
+      });
+    }
+  }, [socket, messages]);
+
+  console.log('messages= ', messages);
+  return (
+    <St.ChatContainer>
+      <RoomContainer />
+      {userCount}
+      <ul id="messages">
+        {messages?.map((messageInfo, index) => (
+          <ChatMessage messageInfo={messageInfo} key={index} id={id} />
+        ))}
+        <li id="usercount" />
+      </ul>
+      <input
+        id="msginput"
+        autoComplete="off"
+        type="text"
+        onChange={(e) => setMsg(e.target.value)}
+        value={msg}
+      />
+      <button type="button" onClick={sendMessage}>
+        전송
+      </button>
+    </St.ChatContainer>
+  );
+};
+
 export default ChatPage;
-
-// var socket = io();
-// var msgform = document.getElementById('msgform');
-// // socket.on 함수로 서버에서 전달하는 신호를 수신
-// socket.on('usercount', (count) => {
-//   var userCounter = document.getElementById('usercount');
-//   userCounter.innerText = "현재 " + count + "명이 서버에 접속해있습니다.";
-// });
-
-// // 메시지 수신시 HTML에 메시지 내용 작성
-// socket.on('message', (msg) => {
-//   var messageList = document.getElementById('messages');
-//   var messageTag = document.createElement("li");
-//   messageTag.innerText = msg;
-//   messageList.appendChild(messageTag);
-// });
-
-// msgform.onsubmit = (e) => {
-//   e.preventDefault();
-//   var msginput = document.getElementById('msginput');
-
-//   // socket.emit으로 서버에 신호를 전달
-//   socket.emit('message', msginput.value);
-
-//   msginput.value = "";
-// };
