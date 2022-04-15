@@ -24,8 +24,9 @@ const chat = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    setMyPageTabkey(state, action: PayloadAction<string>) {
+    setSocket(state, action: PayloadAction<any>) {
       //state.myPageTabKey = action.payload;
+      state.socket = action.payload;
     }
   },
   extraReducers(builder) {

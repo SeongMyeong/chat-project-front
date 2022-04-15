@@ -1,7 +1,7 @@
 import '../styles/globals.css';
 import '../styles/index.css';
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: any) {
   return <Component {...pageProps} />;
 }
 

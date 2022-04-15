@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { io } from 'socket.io-client';
 import { SOCKET_EVENT } from 'lib/constants';
 import styled from 'styled-components';
@@ -32,6 +33,8 @@ function useSocket(url) {
 }
 
 const ChatPage = () => {
+  const router = useRouter();
+
   const [id, setId] = useState(faker.datatype.uuid());
   const [name, setName] = useState(faker.name.firstName());
   const [msg, setMsg] = useState('');
@@ -40,79 +43,92 @@ const ChatPage = () => {
   const [recieveMsg, setRecieveMsg] = useState('');
   const [socket, setSocket] = useState(null);
 
-  useEffect(() => {
-    const socketIo = io('http://localhost:3000');
-    setSocket(socketIo);
-    function cleanup() {
-      if (socketIo) socketIo.disconnect();
-    }
-    return cleanup;
-    // should only run once and not on every re-render,
-    // so pass an empty array
-  }, []);
-  const sendMessage = (e: any) => {
-    e.preventDefault();
-    console.log('[masonms] sendMessage: ', msg, id, name);
-    socket.emit('message', {
-      id: id,
-      message: msg,
-      time: '',
-      user_name: name
-    });
-    setMsg('');
-  };
+  console.log('router.aspath', router);
+  // useEffect(() => {
+  //   const socketIo = io('http://localhost:3000', {
+  //     query: {
+  //       room_id: '1'
+  //     }
+  //   });
+  //   setSocket(socketIo);
+  //   function cleanup() {
+  //     if (socketIo) socketIo.disconnect();
+  //   }
+  //   return cleanup;
+  //   // should only run once and not on every re-render,
+  //   // so pass an empty array
+  // }, []);
+  // const sendMessage = (e: any) => {
+  //   e.preventDefault();
+  //   console.log('[masonms] sendMessage: ', msg, id, name);
+  //   socket.emit('message', {
+  //     channel_id: '1',
+  //     id: id,
+  //     message: msg,
+  //     time: '',
+  //     user_name: name
+  //   });
+  //   setMsg('');
+  // };
 
-  /* 엔터버튼 클릭시 인풋  */
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      const dir = event.keyCode;
-      if (dir === 13) sendMessage(event);
-    };
+  // /* 엔터버튼 클릭시 인풋  */
+  // useEffect(() => {
+  //   const handleKeyDown = (event: KeyboardEvent) => {
+  //     const dir = event.keyCode;
+  //     if (dir === 13) sendMessage(event);
+  //   };
 
-    window.addEventListener('keydown', handleKeyDown, false);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [sendMessage]);
+  //   window.addEventListener('keydown', handleKeyDown, false);
+  //   return () => {
+  //     window.removeEventListener('keydown', handleKeyDown);
+  //   };
+  // }, [sendMessage]);
 
-  useEffect(() => {
-    if (socket)
-      socket.on(SOCKET_EVENT.USER_COUNT, (count) => {
-        setUserCount(count);
-      });
-  }, [socket]);
+  // useEffect(() => {
+  //   if (socket)
+  //     socket.on(SOCKET_EVENT.USER_COUNT, (count) => {
+  //       setUserCount(count);
+  //     });
+  // }, [socket]);
 
-  useEffect(() => {
-    if (socket) {
-      socket.on(SOCKET_EVENT.MESSAGE, (msg) => {
-        console.log('[seo] , ', msg);
-        setMessages([...messages, msg]);
-      });
-    }
-  }, [socket, messages]);
+  // useEffect(() => {
+  //   if (socket) {
+  //     // socket이 연결되어있는지 확인하는 코드
+  //     if (socket.connect().connected) {
+  //       console.log('yes!');
+  //     }
 
-  console.log('messages= ', messages);
+  //     socket.on(SOCKET_EVENT.MESSAGE, (msg) => {
+  //       console.log('[seo] , ', msg);
+  //       setMessages([...messages, msg]);
+  //     });
+  //   }
+  // }, [socket, messages]);
+
+  // console.log('messages= ', messages);
   return (
-    <St.ChatContainer>
-      <RoomContainer />
-      {userCount}
-      <ul id="messages">
-        {messages?.map((messageInfo, index) => (
-          <ChatMessage messageInfo={messageInfo} key={index} id={id} />
-        ))}
-        <li id="usercount" />
-      </ul>
-      <input
-        id="msginput"
-        autoComplete="off"
-        type="text"
-        onChange={(e) => setMsg(e.target.value)}
-        value={msg}
-      />
-      <button type="button" onClick={sendMessage}>
-        전송
-      </button>
-    </St.ChatContainer>
+    <div className="flex">
+      {/* <RoomContainer />
+      <St.ChatContainer>
+        {userCount}
+        <ul id="messages">
+          {messages?.map((messageInfo, index) => (
+            <ChatMessage messageInfo={messageInfo} key={index} id={id} />
+          ))}
+          <li id="usercount" />
+        </ul>
+        <input
+          id="msginput"
+          autoComplete="off"
+          type="text"
+          onChange={(e) => setMsg(e.target.value)}
+          value={msg}
+        />
+        <button type="button" onClick={sendMessage}>
+          전송
+        </button>
+      </St.ChatContainer> */}
+    </div>
   );
 };
 
