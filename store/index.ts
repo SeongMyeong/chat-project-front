@@ -9,14 +9,11 @@ import {
   useSelector as useReduxSelector
 } from 'react-redux';
 
-import common from './common';
 import auth from './auth';
-
+import chat from './chat';
 const rootReducer = combineReducers({
-  common: common.reducer,
-  filter: filter.reducer,
-  modal: modal.reducer,
-  auth: auth.reducer
+  auth: auth.reducer,
+  chat: chat.reducer
   /* store reducer를 위와 같은 형식처럼 넣어주세요.*/
 });
 

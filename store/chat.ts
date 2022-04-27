@@ -17,7 +17,8 @@ import { ChatReduxState } from 'types';
 // );
 
 const initialState: ChatReduxState = {
-  socket: ''
+  socket: '',
+  roomList: []
 };
 
 const chat = createSlice({
@@ -27,6 +28,10 @@ const chat = createSlice({
     setSocket(state, action: PayloadAction<any>) {
       //state.myPageTabKey = action.payload;
       state.socket = action.payload;
+    },
+    setRoomList(state, action: PayloadAction<any[]>) {
+      //state.myPageTabKey = action.payload;
+      state.roomList = action.payload;
     }
   },
   extraReducers(builder) {
