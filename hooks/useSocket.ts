@@ -19,6 +19,8 @@ const useSocket = () => {
   const { roomList, updateRoomList } = useRoomList({
     roomId: router.query?.room_id as string
   });
+
+  console.log('useSocket  ', router.query?.room_id);
   const roomId = router.query?.room_id;
 
   // const updateChannelInfo = async ({ channelId, workspaceUserInfo }) => {
@@ -41,14 +43,14 @@ const useSocket = () => {
     if (socket && !isEmpty(roomList)) {
       socket.emit(
         SOCKET_EVENT.JOIN_ROOM,
-        roomList.map((channel) => channel.channelId._id)
+        roomList.map((roomId) => roomId)
       );
     }
     return () => {
       if (socket)
         socket.emit(
           SOCKET_EVENT.LEAVE_ROOM,
-          roomList.map((channel) => channel.channelId._id)
+          roomList.map((roomId) => roomId)
         );
     };
   }, [socket, roomList]);

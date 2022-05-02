@@ -8,6 +8,7 @@ import ChatMessage from 'components/chat/ChatMessage';
 import RoomContainer from 'components/room/RoomContainer';
 import { chatActions } from 'store/chat';
 import { getChatMessage } from 'lib/api/chat';
+import { leaveChatRoom } from 'lib/api/room';
 import { faker } from '@faker-js/faker';
 
 const St = {
@@ -129,7 +130,15 @@ const Roompage = () => {
     }
   }, [socket, messages]);
 
-  const handleLeave = () => {};
+  const handleLeave = async () => {
+    const res = await leaveChatRoom({
+      room_id: router.query.room_id,
+      id: 'test'
+    });
+    socket.emit(SOCKET_EVENT.LEAVE_ROOM, [router.query.room_id]);
+    router.push('/chat/room');
+    console.log(res);
+  };
   const testGetChat = async () => {
     const { data, status } = await getChatMessage({
       roomId: '3',
