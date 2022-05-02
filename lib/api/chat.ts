@@ -1,8 +1,8 @@
 import Request from './request';
 export const getChatMessage = async ({ roomId, currentCursor }) => {
-  const res = await Request.GET(`/api/chat/`, {
-    roomId
+  const res = await Request.GET(`/api/chat/getChatMessages`, {
+    room_id: roomId
   });
-  // return data.data.reverse();
-  return '';
+  console.log('res = ', res);
+  return res;
 };

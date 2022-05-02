@@ -94,7 +94,12 @@ const initialState: AuthReduxState = {
 const auth = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    setMyInfo: (state, action) => {
+      console.log('action.payload  = ', action.payload);
+      state.myInfo = action.payload;
+    }
+  },
   extraReducers: (builder) =>
     builder
       // login

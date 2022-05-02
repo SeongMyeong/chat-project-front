@@ -8,9 +8,9 @@ import isEmpty from 'lodash/isEmpty';
 import { io } from 'socket.io-client';
 import { chatActions } from 'store/chat';
 const baseURL =
-  process.env.NODE_ENV === 'development'
-    ? process.env.REACT_APP_DEV_CHAT_HOST
-    : process.env.REACT_APP_CHAT_HOST;
+  process.env.NEXT_PUBLIC_NODE_ENV === 'development'
+    ? process.env.NEXT_PUBLIC_DEV_CHAT_HOST
+    : process.env.NEXT_PUBLIC_CHAT_HOST;
 
 const useSocket = () => {
   const router = useRouter();

@@ -17,6 +17,7 @@ const St = {
     border-radius: 8px;
   `
 };
+
 const Roompage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -29,13 +30,18 @@ const Roompage = () => {
   const [socket, setSocket] = useState(null);
 
   console.log('router.aspath', router);
-
+  //"CHAT_MESSAGE:dsa:3:a5a0cdc1-a638-4932-807a-ba9e3a239026:Nathan"
   useEffect(() => {
-    const getMessage = async (roomId) => {
+    const getMessage = async (roomId: string) => {
       if (roomId) {
-        const message = await getChatMessage(roomId);
-        console.log(message);
-        //setMessages([{ message }]);
+        const { data, status } = await getChatMessage({
+          roomId,
+          currentCursor: ''
+        });
+        if (data && status === 200) {
+          setMessages(data.data);
+        }
+        // setMessages([{ message }]);
       }
     };
     const socketIo = io('http://localhost:5001/room', {
@@ -44,13 +50,12 @@ const Roompage = () => {
       }
     });
     setSocket(socketIo);
-
     dispatch(chatActions.setSocket(socketIo));
+
     socketIo.emit(SOCKET_EVENT.JOIN_ROOM, {
       room_id: router.query.room_id,
       id: id,
       message: 'JOIN',
-      time: '',
       user_name: name
     });
 
@@ -62,8 +67,7 @@ const Roompage = () => {
         socketIo.emit(SOCKET_EVENT.LEAVE_ROOM, {
           room_id: router.query.room_id,
           id: id,
-          message: 'JOIN',
-          time: '',
+          message: 'LEAVE',
           user_name: name
         });
 
@@ -126,14 +130,23 @@ const Roompage = () => {
   }, [socket, messages]);
 
   const handleLeave = () => {};
+  const testGetChat = async () => {
+    const { data, status } = await getChatMessage({
+      roomId: '3',
+      currentCursor: ''
+    });
+    setMessages(data.data);
+  };
 
-  console.log('messages= ', messages);
   return (
     <div className="flex">
       <RoomContainer />
       <St.ChatContainer>
-        <button type="button" onClick={sendMessage}>
+        <button type="button" onClick={handleLeave}>
           나가기
+        </button>
+        <button type="button" onClick={testGetChat}>
+          채팅
         </button>
         현재 소켓수 : {userCount}
         <ul id="messages">

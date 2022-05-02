@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import ChatMessage from 'components/chat/ChatMessage';
 import RoomContainer from 'components/room/RoomContainer';
 import { faker } from '@faker-js/faker';
+import Main from 'components/room/Main';
 
 const St = {
   ChatContainer: styled.div`
@@ -108,6 +109,7 @@ const ChatPage = () => {
   // console.log('messages= ', messages);
   return (
     <div className="flex">
+      <Main />
       {/* <RoomContainer />
       <St.ChatContainer>
         {userCount}

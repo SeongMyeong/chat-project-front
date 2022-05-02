@@ -13,11 +13,11 @@ const useRoomList = ({ roomId }: RoomListProps) => {
   const getRoomList = async () => {
     try {
       if (roomId !== null) {
-        // const { data } = await request.GET('/api/channel', {
-        //   roomId: roomId
-        // });
-        // if (data.success) {
-        // } else throw '룸 목록 요청 오류';
+        const { data } = await request.GET('/api/getJoinRoomList', {
+          roomId: roomId
+        });
+        if (data.success) {
+        } else throw '룸 목록 요청 오류';
       }
     } catch (err) {
       toast.error('룸 목록 요청에 오류가 발생했습니다.', {
