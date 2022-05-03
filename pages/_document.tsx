@@ -36,7 +36,16 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head>{/* meta tag  and font preload */}</Head>
+        <Head>
+          <link rel="shortcut icon" href="/images/your.ico" />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="https://cdn.jsdelivr.net/gh/moonspam/NanumSquare@1.0/nanumsquare.css"
+          />
+
+          <meta property="og:title" content="your title" key="title" />
+        </Head>
         <body>
           <Main />
           <NextScript />

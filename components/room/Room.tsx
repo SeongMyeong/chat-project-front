@@ -6,9 +6,13 @@ const St = {
     width: 200px;
     height: 40px;
     padding: 1rem;
-    border: 1px solid;
     cursor: pointer;
-    background: ${(props) => (props.isInRoom ? 'red' : '#fff')};
+    background: ${(props) => (props.isInRoom ? '#ffc9c9' : '#fff')};
+  `,
+  RoomContainer: styled.div`
+    width: 100%;
+    text-align: left;
+    font-weight: bold;
   `
 };
 const Room = ({ roomId }) => {
@@ -20,10 +24,13 @@ const Room = ({ roomId }) => {
 
   return (
     <St.RoomWrapper
+      className=""
       onClick={handleRoomClick}
       isInRoom={roomId === roomIdParams}
     >
-      방번호 {roomId}
+      <St.RoomContainer>
+        <span>{roomId}</span>
+      </St.RoomContainer>
     </St.RoomWrapper>
   );
 };

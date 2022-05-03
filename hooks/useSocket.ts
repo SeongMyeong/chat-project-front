@@ -33,14 +33,28 @@ const useSocket = () => {
   //     );
   // };
 
-  useEffect(() => {
-    if (roomId) {
-      dispatch(chatActions.setSocket(io(`${baseURL}/${roomId}`)));
-    }
-  }, [roomId]);
+  // useEffect(() => {
+  //   if (roomId) {
+  //     const socketIo = io('http://localhost:5001/room', {
+  //       query: {
+  //         room_id: roomId
+  //       }
+  //     });
+  //     dispatch(chatActions.setSocket(socketIo));
+  //   }
+  // }, [roomId]);
+
+  // useEffect(() => {
+  //   const socketIo = io('http://localhost:5001/room');
+  //   socketIo.on('connection', () => {
+  //     console.log('connect!');
+  //   });
+  //   dispatch(chatActions.setSocket(socketIo));
+  // }, []);
 
   useEffect(() => {
     if (socket && !isEmpty(roomList)) {
+      console.log('[seo] roomList ', roomList);
       socket.emit(
         SOCKET_EVENT.JOIN_ROOM,
         roomList.map((roomId) => roomId)

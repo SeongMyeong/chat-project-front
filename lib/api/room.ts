@@ -35,3 +35,8 @@ export const leaveChatRoom = async ({ room_id, id }) => {
   });
   return res;
 };
+
+export const deleteRedisKey = async () => {
+  const res = await Request.GET(`/api/room/deleteRedisKey`);
+  return res;
+};
