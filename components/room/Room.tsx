@@ -30,6 +30,7 @@ const Room = ({ roomId }) => {
     >
       <St.RoomContainer>
         <span>{roomId}</span>
+        <span>알림카운트</span>
       </St.RoomContainer>
     </St.RoomWrapper>
   );

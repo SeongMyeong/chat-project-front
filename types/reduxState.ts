@@ -1,6 +1,12 @@
 export interface ChatReduxState {
   socket: any;
+  roomId: string;
   roomList: any[];
+  messages: any[];
+  allChatRoomList: any[];
+  joinChatRoomList: any[];
+  roomCursor: any[];
+  joinedChatRoomData: any;
 }
 
 export type AuthReduxState = {

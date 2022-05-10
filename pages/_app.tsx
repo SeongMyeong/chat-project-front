@@ -10,23 +10,52 @@ import Layout from 'components/base/Layout';
 import { SOCKET_EVENT } from 'lib/constants';
 import { chatActions } from 'store/chat';
 import { io } from 'socket.io-client';
+import { useSelector, RootState } from 'store';
+import { getAllChatRoomList, getJoinChatRoomList } from 'lib/api/room';
+//const socketIo = io('http://localhost:5001/room');
 
 function MyApp({ Component, pageProps }: any) {
+  const dispatch = useDispatch();
+  const myInfo = useSelector((state: RootState) => state.auth.myInfo);
+
   // useSocket();
   useEffect(() => {
+    //alert('hello');
     const socketIo = io('http://localhost:5001/room');
     dispatch(chatActions.setSocket(socketIo));
-    socketIo.on(SOCKET_EVENT.MESSAGE, (data) => {
-      console.log('hello', data);
+
+    socketIo.on(SOCKET_EVENT.MESSAGE, (msg) => {
+      console.log('SOCKET_EVENT.MESSAGE ', msg);
+      dispatch(chatActions.setMessages(msg));
     });
-    // return () => {
-    //   if (socketIo) {
-    //     socketIo.disconnect();
-    //   }
-    // };
+
+    socketIo.on(SOCKET_EVENT.ROOM_CURSOR, (msg) => {
+      console.log('SOCKET_EVENT.ROOM_CURSORmsg = ', msg);
+    });
+
+    socketIo.on(SOCKET_EVENT.LEAVE_ROOM, (msg) => {});
+    socketIo.on(SOCKET_EVENT.JOIN_ROOM, (msg) => {
+      console.log('[seo] JOIN_ROOM ', msg);
+      const fecthAllChatRoom = async () => {
+        const res = await getAllChatRoomList();
+        const { data, status } = res;
+        dispatch(chatActions.setAllChatRoomList(data.result));
+      };
+      fecthAllChatRoom();
+    });
   }, []);
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    const fetchJoinChatRoom = async () => {
+      const res = await getJoinChatRoomList({ id: myInfo?.id });
+      const { data, status } = res;
+      dispatch(chatActions.setJoinChatRoomList(data.result));
+    };
+    if (myInfo?.id) {
+      fetchJoinChatRoom();
+    }
+  }, [myInfo]);
+
   useEffect(() => {
     dispatch(
       authActions.setMyInfo({

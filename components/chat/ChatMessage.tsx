@@ -26,7 +26,7 @@ const ChatMessage = ({ messageInfo, id }: any) => {
     );
   }
   const isMe = messageInfo?.id === id;
-  console.log(' messageInfo?.id ', messageInfo?.id, ' id = ', id);
+  //console.log(' messageInfo?.id ', messageInfo?.id, ' id = ', id);
   if (!messageInfo) return;
   return (
     <St.MessageWrapper className="flex" isMe={isMe}>
