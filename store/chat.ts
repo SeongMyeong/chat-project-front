@@ -24,16 +24,14 @@ const initialState: ChatReduxState = {
   allChatRoomList: [],
   joinChatRoomList: [],
   roomCursor: [],
-  joinedChatRoomData: []
+  joinedChatRoomData: [],
+  roomCursorList: []
 };
 
 const chat = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    setRoomCursor(state, action) {
-      state.roomCursor.push(action.payload);
-    },
     setRoomId(state, action: PayloadAction<string>) {
       state.roomId = action.payload;
     },
@@ -45,8 +43,19 @@ const chat = createSlice({
       state.roomList = action.payload;
     },
     setMessages(state, action: PayloadAction<any>) {
-      console.log('[seo] setMessages ', action.payload.room_id);
+      //console.log('[seo] setMessages ', action.payload.room_id, action.payload);
       const joinedChatRoomData = { ...state.joinedChatRoomData };
+      const roomId = action.payload.room_id;
+      const currentCursor = action.payload.current_cursor;
+
+      if (joinedChatRoomData[roomId]) {
+        const myRoomCursor = joinedChatRoomData[roomId].length;
+        const unreadCount = currentCursor - myRoomCursor;
+        let roomCursorList = { ...state.roomCursorList };
+        //[room_id] : unreadCount
+        roomCursorList[roomId as string] = unreadCount;
+        state.roomCursorList = roomCursorList;
+      }
 
       /* 현재 방이면 메세지 추가 */
       if (action.payload.room_id === state.roomId) {
@@ -54,30 +63,23 @@ const chat = createSlice({
         messages.push(action.payload);
         state.messages = messages;
 
-        console.log('[seo] reducer messages ', messages);
-        console.log('[seo] reducer joinedChatRoomData ', joinedChatRoomData);
         /* 추가  */
         joinedChatRoomData[action.payload.room_id] = messages;
         state.joinedChatRoomData = joinedChatRoomData;
+        //룸커서 리스트 초기화
+        let roomCursorList = { ...state.roomCursorList };
+        roomCursorList[roomId as string] = 0;
+        state.roomCursorList = roomCursorList;
       }
     },
+    // 메세지 및 룸 메세지 초기화
     setMessagesInit(state, action) {
-      // const { roomId, messages } = action.payload;
-      // const joinedChatRoomData = state.joinedChatRoomData.slice();
-      // console.log(
-      //   '[seo] setMessageInit joinedChatRoomData reudx',
-      //   state.joinedChatRoomData
-      // );
-      // console.log(
-      //   '[seo] setMessagesInit  joinedChatRoomData',
-      //   joinedChatRoomData
-      // );
-      // if (joinedChatRoomData[roomId]) {
-      //   console.log('[seo] setMessagesInit inside', joinedChatRoomData[roomId]);
-      //   joinedChatRoomData[roomId] = messages;
-      //   state.joinedChatRoomData = joinedChatRoomData;
-      // }
       state.messages = action.payload.messages;
+      const roomId = action.payload.room_id;
+      //룸커서 리스트 초기화
+      let roomCursorList = { ...state.roomCursorList };
+      roomCursorList[roomId as string] = 0;
+      state.roomCursorList = roomCursorList;
     },
     setAllChatRoomList(state, action: PayloadAction<any[]>) {
       state.allChatRoomList = action.payload;

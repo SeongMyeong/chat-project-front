@@ -20,7 +20,6 @@ const useSocket = () => {
     roomId: router.query?.room_id as string
   });
 
-  console.log('useSocket  ', router.query?.room_id);
   const roomId = router.query?.room_id;
 
   // const updateChannelInfo = async ({ channelId, workspaceUserInfo }) => {

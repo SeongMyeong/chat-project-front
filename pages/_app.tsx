@@ -30,10 +30,11 @@ function MyApp({ Component, pageProps }: any) {
     });
 
     socketIo.on(SOCKET_EVENT.ROOM_CURSOR, (msg) => {
-      console.log('SOCKET_EVENT.ROOM_CURSORmsg = ', msg);
+      // console.log('SOCKET_EVENT.ROOM_CURSORmsg = ', msg);
     });
 
     socketIo.on(SOCKET_EVENT.LEAVE_ROOM, (msg) => {});
+
     socketIo.on(SOCKET_EVENT.JOIN_ROOM, (msg) => {
       console.log('[seo] JOIN_ROOM ', msg);
       const fecthAllChatRoom = async () => {
@@ -43,6 +44,15 @@ function MyApp({ Component, pageProps }: any) {
       };
       fecthAllChatRoom();
     });
+  }, []);
+
+  useEffect(() => {
+    const fecthAllChatRoom = async () => {
+      const res = await getAllChatRoomList();
+      const { data, status } = res;
+      dispatch(chatActions.setAllChatRoomList(data.result));
+    };
+    fecthAllChatRoom();
   }, []);
 
   useEffect(() => {

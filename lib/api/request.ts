@@ -12,13 +12,12 @@ const options = {
 };
 
 const GET = async (path, params = null) => {
-  console.log('[seo] (baseURL + path ', baseURL + path);
   try {
     const { data, status } = await axios.get(baseURL + path, {
       params,
       ...options
     });
-    console.log('[get request]  path , data = ', path, data, status);
+    //console.log('[get request]  path , data = ', path, data, status);
     return { data, status };
   } catch (err) {
     toast.error(err);

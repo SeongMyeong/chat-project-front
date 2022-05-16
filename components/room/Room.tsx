@@ -15,7 +15,11 @@ const St = {
     font-weight: bold;
   `
 };
-const Room = ({ roomId }) => {
+type RoomProps = {
+  roomId: string;
+  unreadCount?: number;
+};
+const Room = ({ roomId, unreadCount }: RoomProps) => {
   const router = useRouter();
   const roomIdParams = router.query?.room_id;
   const handleRoomClick = () => {
@@ -28,9 +32,21 @@ const Room = ({ roomId }) => {
       onClick={handleRoomClick}
       isInRoom={roomId === roomIdParams}
     >
-      <St.RoomContainer>
+      <St.RoomContainer className="flex-between">
         <span>{roomId}</span>
-        <span>알림카운트</span>
+        {unreadCount && unreadCount !== 0 && (
+          <span
+            style={{
+              padding: '10px',
+              width: '20px',
+              background: 'red',
+              color: 'white',
+              borderRadius: '4px'
+            }}
+          >
+            {unreadCount}
+          </span>
+        )}
       </St.RoomContainer>
     </St.RoomWrapper>
   );

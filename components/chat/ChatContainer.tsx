@@ -27,15 +27,11 @@ const ChatContainer = ({ messages, roomId, id }) => {
     });
     socket.emit(SOCKET_EVENT.LEAVE_ROOM, [roomId]);
     router.push('/chat/room');
-    console.log(res);
   };
 
-  console.log('ChatMessage = ', messages);
   return (
     <St.ChatContainer>
-      {/* <button type="button" onClick={handleLeave}>
-        나가기
-      </button> */}
+      <span>현재 방 {roomId} </span>
       <ul id="messages">
         {messages?.map((messageInfo, index) => (
           <ChatMessage messageInfo={messageInfo} key={index} id={id} />

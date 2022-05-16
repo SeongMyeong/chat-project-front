@@ -44,7 +44,6 @@ const ChatPage = () => {
   const [recieveMsg, setRecieveMsg] = useState('');
   const [socket, setSocket] = useState(null);
 
-  console.log('router.aspath', router);
   // useEffect(() => {
   //   const socketIo = io('http://localhost:3000', {
   //     query: {

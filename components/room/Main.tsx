@@ -16,7 +16,6 @@ const Main = () => {
   const [id, setId] = useState(faker.datatype.uuid());
   const [name, setName] = useState(faker.name.firstName());
   const onSubmit = (data) => {
-    console.log(data);
     dispatch(authActions.setMyInfo({ id: data.id, name: data.name }));
     router.push('/chat/room');
   };

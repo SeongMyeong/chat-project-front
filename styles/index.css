@@ -61,3 +61,8 @@ button {
 #nprogress .peg {
   box-shadow: 0 0 10px #ffbb00, 0 0 5px #ffbb00;
 }
+canvas {
+  /* width: 100%;
+  height: auto; */
+  background: #111;
+}
