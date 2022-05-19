@@ -1,3 +1,4 @@
+import { Modal } from '.';
 export interface ChatReduxState {
   socket: any;
   roomId: string;
@@ -28,4 +29,8 @@ export type AuthReduxState = {
   isChangeNicknameLoading: boolean; // 닉네임 변경 시도중
   isChangeNicknameDone: boolean;
   isChangeNicknameError: any;
+};
+
+export type ModalReduxState = {
+  modal: Modal;
 };

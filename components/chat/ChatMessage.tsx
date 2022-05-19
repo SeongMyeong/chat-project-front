@@ -7,18 +7,22 @@ const St = {
   MessageWrapper: styled.li`
     width: 100%;
     border-radius: 16px;
-    background: ${(props) => (props.isMe ? '#ffcf00' : 'white')};
+    background: ${(props) => (props.isMe ? '#987eff' : 'white')};
     color: black;
     padding: 10px;
     margin-bottom: 10px;
     word-break: break-all;
+    margin: 10px 0;
   `
 };
 const ChatMessage = ({ messageInfo, id }: any) => {
   const isInfomation = messageInfo?.id === 'information';
   if (isInfomation) {
     return (
-      <St.MessageWrapper className="flex">
+      <St.MessageWrapper
+        className="flex"
+        style={{ background: '#403f3f', color: 'white' }}
+      >
         <div className="flex">
           <div>{messageInfo?.message}</div>
         </div>
@@ -42,7 +46,7 @@ const ChatMessage = ({ messageInfo, id }: any) => {
         ></div>
         <div>
           <div className="flex-space-between">
-            <div style={{ fontSize: '13px', color: '#868e96' }}>
+            <div style={{ fontSize: '13px', color: 'black' }}>
               {messageInfo?.user_name}
             </div>
             {/* <div>{messageInfo?.time}</div> */}

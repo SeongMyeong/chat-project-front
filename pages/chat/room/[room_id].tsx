@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { io } from 'socket.io-client';
 import { SOCKET_EVENT } from 'lib/constants';
 import RoomContainer from 'components/room/RoomContainer';
+import RoomHeader from 'components/room/RoomHeader';
 import ChatContainer from 'components/chat/ChatContainer';
 import { chatActions } from 'store/chat';
 import { getChatMessage } from 'lib/api/chat';
@@ -21,7 +22,7 @@ import { Button, Input } from 'antd';
 
 const St = {
   ChatContainerWrapper: styled.div`
-    width: 100%;
+    width: 1280px;
     overflow: hidden;
     height: 90vh;
   `
@@ -61,13 +62,17 @@ const Roompage = () => {
         user_name: myInfo?.name
       });
       const fecth = async () => {
-        const res = await joinChatRoom({
-          room_id: router.query.room_id,
-          id: myInfo?.id
-        });
-        const { result } = res.data;
-        console.log('[seo] joinChatRoom res = ', res);
-        setMemberCount(result);
+        try {
+          const res = await joinChatRoom({
+            room_id: router.query.room_id,
+            id: myInfo?.id
+          });
+          const { result } = res.data;
+          console.log('[seo] joinChatRoom res = ', res);
+          setMemberCount(result);
+        } catch (e) {
+          console.log(e);
+        }
       };
       fecth();
     }
@@ -125,6 +130,7 @@ const Roompage = () => {
 
   const sendMessage = (e: any) => {
     e.preventDefault();
+    if (msg === '') return;
     socket.emit('message', {
       room_id: router.query.room_id,
       id: myInfo?.id,
@@ -133,11 +139,6 @@ const Roompage = () => {
       user_name: myInfo?.name
     });
     setMsg('');
-
-    // 하단부로 내리기
-    const chatCotainer = document.getElementById('chat-container');
-    //console.log('chatCotainer ', chatCotainer);
-    chatCotainer.scrollTo(0, chatCotainer.scrollHeight);
   };
 
   /* 엔터버튼 클릭시 인풋  */
@@ -152,30 +153,39 @@ const Roompage = () => {
     };
   }, [sendMessage]);
 
+  useEffect(() => {
+    // 하단부로 내리기
+    const chatCotainer = document.getElementById('chat-container');
+    console.log('chatCotainer ', chatCotainer);
+    chatCotainer.scrollTo(0, chatCotainer.scrollHeight);
+  }, [messages]);
+
   return (
     <div className="flex">
       <RoomContainer
         allChatRoomList={allChatRoomList}
         joinChatRoomList={joinChatRoomList}
       />
-
-      <St.ChatContainerWrapper id="chat-container">
-        <div>채팅 멤버 {memberCount}</div>
-        <ChatContainer
-          messages={messages}
-          roomId={router.query.room_id}
-          id={myInfo?.id}
-        />
-      </St.ChatContainerWrapper>
-      <div className="flex" style={{ height: '32px' }}>
-        <Input
-          id="msginput"
-          autoComplete="off"
-          type="text"
-          onChange={(e) => setMsg(e.target.value)}
-          value={msg}
-        />
-        <Button onClick={sendMessage}>전송</Button>
+      <div className="flex-column">
+        <St.ChatContainerWrapper>
+          <RoomHeader title={''} memberCount={memberCount} />
+          <ChatContainer
+            messages={messages}
+            roomId={router.query.room_id}
+            id={myInfo?.id}
+            name={myInfo?.name}
+          />
+        </St.ChatContainerWrapper>
+        <div className="flex" style={{ height: '32px' }}>
+          <Input
+            id="msginput"
+            autoComplete="off"
+            type="text"
+            onChange={(e) => setMsg(e.target.value)}
+            value={msg}
+          />
+          <Button onClick={sendMessage}>전송</Button>
+        </div>
       </div>
     </div>
   );

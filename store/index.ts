@@ -12,10 +12,13 @@ import {
 import auth from './auth';
 import chat from './chat';
 import test from './test';
+import modal from './modal';
+
 const rootReducer = combineReducers({
   auth: auth.reducer,
   chat: chat.reducer,
-  test: test.reducer
+  test: test.reducer,
+  modal: modal.reducer
   /* store reducer를 위와 같은 형식처럼 넣어주세요.*/
 });
 
