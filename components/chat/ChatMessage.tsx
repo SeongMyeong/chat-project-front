@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import { SOCKET_EVENT } from 'lib/constants';
 import styled from 'styled-components';
+import moment from 'moment';
 
 const St = {
   MessageWrapper: styled.li`
@@ -30,7 +31,7 @@ const ChatMessage = ({ messageInfo, id }: any) => {
     );
   }
   const isMe = messageInfo?.id === id;
-  //console.log(' messageInfo?.id ', messageInfo?.id, ' id = ', id);
+  console.log(' messageInfo ', messageInfo);
   if (!messageInfo) return;
   return (
     <St.MessageWrapper className="flex" isMe={isMe}>
@@ -49,7 +50,9 @@ const ChatMessage = ({ messageInfo, id }: any) => {
             <div style={{ fontSize: '13px', color: 'black' }}>
               {messageInfo?.user_name}
             </div>
-            {/* <div>{messageInfo?.time}</div> */}
+            <div style={{ marginLeft: '10px' }}>
+              {moment(messageInfo?.date).format('YYYY-MM-DD HH:mm')}
+            </div>
           </div>
           <div>{messageInfo?.message}</div>
         </div>

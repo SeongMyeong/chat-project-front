@@ -1,9 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
-import { useDispatch } from 'react-redux'
-import { useSelector, RootState } from 'store'
-import { modalActions } from 'store/modal'
-import Button from 'components/common/Button'
+import React from 'react';
+import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { useSelector, RootState } from 'store';
+import { modalActions } from 'store/modal';
+import { Button } from 'antd';
 
 const St = {
   PopPanel: styled.div`
@@ -44,30 +44,30 @@ const St = {
       margin-right: 5px;
     }
   `
-}
+};
 
 interface IProps {
-  closeModal: () => void
+  closeModal: () => void;
 }
 
 const CommonModal: React.FC<IProps> = ({ closeModal }) => {
-  const dispatch = useDispatch()
-  const modal = useSelector((state: RootState) => state.modal.modal)
+  const dispatch = useDispatch();
+  const modal = useSelector((state: RootState) => state.modal.modal);
 
   const handleConfirm = () => {
-    if (modal.confirmFunction) modal.confirmFunction()
+    if (modal.confirmFunction) modal.confirmFunction();
     else {
-      dispatch(modalActions.initModal())
-      closeModal()
+      dispatch(modalActions.initModal());
+      closeModal();
     }
-  }
+  };
   const handleCancel = () => {
-    if (modal.cancelFunction) modal.cancelFunction()
+    if (modal.cancelFunction) modal.cancelFunction();
     else {
-      dispatch(modalActions.initModal())
-      closeModal()
+      dispatch(modalActions.initModal());
+      closeModal();
     }
-  }
+  };
 
   return (
     <>
@@ -82,21 +82,16 @@ const CommonModal: React.FC<IProps> = ({ closeModal }) => {
           <span className="error-txt">{}</span>
         </St.PopPanelContainer>
         <St.PopButtonContainer>
-          <Button
-            type="button"
-            onClick={handleCancel}
-            size="small"
-            color="red_6"
-          >
+          <Button onClick={handleCancel} size="small" color="red_6">
             닫기
           </Button>
-          <Button type="button" onClick={handleConfirm} size="small">
+          <Button onClick={handleConfirm} size="small">
             확인
           </Button>
         </St.PopButtonContainer>
       </St.PopPanel>
     </>
-  )
-}
+  );
+};
 
-export default CommonModal
+export default CommonModal;

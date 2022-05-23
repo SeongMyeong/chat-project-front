@@ -8,7 +8,7 @@ import RoomHeader from 'components/room/RoomHeader';
 import ChatContainer from 'components/chat/ChatContainer';
 import { chatActions } from 'store/chat';
 import { getChatMessage } from 'lib/api/chat';
-
+import MakeRoom from 'components/room/MakeRoom';
 import {
   getAllChatRoomList,
   getJoinChatRoomList,
@@ -51,7 +51,7 @@ const Roompage = () => {
   const previousRoomId = usePrevious(router.query?.room_id);
   const callback = () => {};
 
-  const [memberCount, setMemberCount] = useState();
+  const [memberList, setMemberList] = useState();
   //"CHAT_MESSAGE:dsa:3:a5a0cdc1-a638-4932-807a-ba9e3a239026:Nathan"
   useEffect(() => {
     /* 룸 접속 */
@@ -65,11 +65,12 @@ const Roompage = () => {
         try {
           const res = await joinChatRoom({
             room_id: router.query.room_id,
-            id: myInfo?.id
+            id: myInfo?.id,
+            user_name: myInfo?.name
           });
           const { result } = res.data;
           console.log('[seo] joinChatRoom res = ', res);
-          setMemberCount(result);
+          setMemberList(result);
         } catch (e) {
           console.log(e);
         }
@@ -90,7 +91,6 @@ const Roompage = () => {
 
   useEffect(() => {
     const temp = { ...joinedChatRoomDataRef.current };
-
     joinChatRoomList.forEach((item) => {
       if (!temp[item]) temp[item] = [];
       else temp[item] = temp[item];
@@ -98,7 +98,6 @@ const Roompage = () => {
     joinedChatRoomDataRef.current = temp;
   }, [joinChatRoomList]);
 
-  const isFecthing = React.useRef(false);
   useEffect(() => {
     if (previousRoomId === router.query?.room_id) return;
 
@@ -166,9 +165,10 @@ const Roompage = () => {
         allChatRoomList={allChatRoomList}
         joinChatRoomList={joinChatRoomList}
       />
+      {/* <MakeRoom /> */}
       <div className="flex-column">
         <St.ChatContainerWrapper>
-          <RoomHeader title={''} memberCount={memberCount} />
+          <RoomHeader title={''} memberList={memberList} id={myInfo?.id} />
           <ChatContainer
             messages={messages}
             roomId={router.query.room_id}

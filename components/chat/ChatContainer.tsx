@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ChatMessage from 'components/chat/ChatMessage';
 import styled from 'styled-components';
 import { leaveChatRoom } from 'lib/api/room';
 import { SOCKET_EVENT } from 'lib/constants';
-import { faker } from '@faker-js/faker';
 import { useRouter } from 'next/router';
 import { useSelector, RootState } from 'store';
 import { Button } from 'antd';
@@ -25,7 +24,8 @@ const ChatContainer = ({ messages, roomId, id, name }) => {
   const handleLeave = async () => {
     const res = await leaveChatRoom({
       room_id: roomId,
-      id
+      id,
+      user_name: name
     });
     socket.emit(SOCKET_EVENT.LEAVE_ROOM, {
       room_id: roomId,

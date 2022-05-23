@@ -20,18 +20,20 @@ export const getJoinChatRoomList = async ({ id }) => {
   return res;
 };
 
-export const joinChatRoom = async ({ room_id, id }) => {
+export const joinChatRoom = async ({ room_id, id, user_name }) => {
   const res = await Request.POST(`/api/room/joinChatRoom`, {
     room_id,
-    id
+    id,
+    user_name
   });
   return res;
 };
 
-export const leaveChatRoom = async ({ room_id, id }) => {
+export const leaveChatRoom = async ({ room_id, id, user_name }) => {
   const res = await Request.POST(`/api/room/leaveChatRoom`, {
     room_id,
-    id
+    id,
+    user_name
   });
   return res;
 };

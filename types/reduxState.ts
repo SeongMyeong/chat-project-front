@@ -13,7 +13,10 @@ export interface ChatReduxState {
 
 export type AuthReduxState = {
   isLogged: boolean;
-  myInfo: any; // 내정보
+  myInfo: {
+    id: string;
+    name: string;
+  }; // 내정보
   isLoadMyInfoLoading: boolean; // 로그인 정보 조회
   isLoadMyInfoDone: boolean;
   isLoadMyInfoError: any;
