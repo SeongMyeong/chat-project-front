@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector, RootState } from 'store';
 import { modalActions } from 'store/modal';
 import { Button } from 'antd';
+import ProjectInformation from 'components/project/ProjectInformation';
 
 const St = {
   PopPanel: styled.div`
@@ -11,6 +12,7 @@ const St = {
     display: flex;
     flex-direction: column;
     border-radius: 10px;
+    padding: 1rem;
   `,
   PopPanelHd: styled.h1`
     padding: 0 30px;
@@ -53,7 +55,7 @@ interface IProps {
 const CommonModal: React.FC<IProps> = ({ closeModal }) => {
   const dispatch = useDispatch();
   const modal = useSelector((state: RootState) => state.modal.modal);
-
+  console.log('CommonModal!', modal);
   const handleConfirm = () => {
     if (modal.confirmFunction) modal.confirmFunction();
     else {
@@ -72,14 +74,14 @@ const CommonModal: React.FC<IProps> = ({ closeModal }) => {
   return (
     <>
       <St.PopPanel>
-        <St.PopPanelHd>알림</St.PopPanelHd>
+        <St.PopPanelHd>프로젝트 내용</St.PopPanelHd>
         <St.PopPanelContainer>
           <p>
             {modal.message}
             <br />
             {modal.subMessage}
           </p>
-          <span className="error-txt">{}</span>
+          <ProjectInformation />
         </St.PopPanelContainer>
         <St.PopButtonContainer>
           <Button onClick={handleCancel} size="small" color="red_6">

@@ -1,3 +1,4 @@
+import React from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 
@@ -59,4 +60,4 @@ const Room = ({ roomId, unreadCount }: RoomProps) => {
     </St.RoomWrapper>
   );
 };
-export default Room;
+export default React.memo(Room);

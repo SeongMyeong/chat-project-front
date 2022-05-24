@@ -1,8 +1,10 @@
+import React from 'react';
 import { Tag, Divider } from 'antd';
+
 const RoomHeader = ({ title, memberList, id }) => {
   console.log('memberList= ', memberList);
   return (
-    <div>
+    <div style={{ margin: '10px' }}>
       <div>채팅 멤버 {memberList?.length}</div>
       <div>
         {memberList?.map((item) => {
@@ -14,4 +16,4 @@ const RoomHeader = ({ title, memberList, id }) => {
     </div>
   );
 };
-export default RoomHeader;
+export default React.memo(RoomHeader);

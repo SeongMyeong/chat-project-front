@@ -18,9 +18,9 @@ const Layout = ({ children }) => {
       dispatch(modalActions.closeModal());
     }
   };
-
+  console.log('layout = modal', modal);
   return (
-    <St.LayoutWrapper>
+    <St.LayoutWrapper id="root-modal">
       <ModalPortal
         modalOpened={modal.open}
         closePortal={closeModal}

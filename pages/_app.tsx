@@ -22,6 +22,7 @@ function MyApp({ Component, pageProps }: any) {
   useEffect(() => {
     //alert('hello');
     const socketIo = io('http://localhost:5001/room');
+    console.log('socketIo connection= ', socketIo);
     dispatch(chatActions.setSocket(socketIo));
 
     socketIo.on(SOCKET_EVENT.MESSAGE, (msg) => {

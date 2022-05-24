@@ -7,6 +7,7 @@ import RoomContainer from 'components/room/RoomContainer';
 import RoomHeader from 'components/room/RoomHeader';
 import ChatContainer from 'components/chat/ChatContainer';
 import { chatActions } from 'store/chat';
+import modal, { modalActions } from 'store/modal';
 import { getChatMessage } from 'lib/api/chat';
 import MakeRoom from 'components/room/MakeRoom';
 import {
@@ -44,6 +45,7 @@ const Roompage = () => {
   const roomCursorList = useSelector(
     (state: RootState) => state.chat.roomCursorList
   );
+  const modal = useSelector((state: RootState) => state.modal.modal);
   const router = useRouter();
   const dispatch = useDispatch();
   const [msg, setMsg] = useState('');
@@ -159,12 +161,17 @@ const Roompage = () => {
     chatCotainer.scrollTo(0, chatCotainer.scrollHeight);
   }, [messages]);
 
+  const handleProjectModal = async () => {
+    dispatch(modalActions.setModal({ ...modal, type: 'project' }));
+    dispatch(modalActions.openModal());
+  };
   return (
     <div className="flex">
       <RoomContainer
         allChatRoomList={allChatRoomList}
         joinChatRoomList={joinChatRoomList}
       />
+      <button onClick={handleProjectModal}>모달</button>
       {/* <MakeRoom /> */}
       <div className="flex-column">
         <St.ChatContainerWrapper>

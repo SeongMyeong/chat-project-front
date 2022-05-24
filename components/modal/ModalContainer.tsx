@@ -15,12 +15,13 @@ const Container = styled.div`
 
 const ModalContainer: React.FC<IProps> = ({ closeModal }) => {
   const modal = useSelector((state: RootState) => state.modal.modal);
+  console.log('modal = ', modal.type);
   return (
     <Container>
       <Suspense fallback={<Loading size={30} loading color="#efffff" />}>
         <>
           {/*여기에 아래와 같이 모달을 선언해주세요 */}
-          {modal.type === 'common' && <CommonModal closeModal={closeModal} />}
+          {modal.type === 'project' && <CommonModal closeModal={closeModal} />}
         </>
       </Suspense>
     </Container>
