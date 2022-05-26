@@ -29,7 +29,12 @@ const Layout = ({ children }) => {
         <ModalContainer closeModal={closeModal} />
       </ModalPortal>
       <div
-        style={{ height: '40px', fontWeight: 'bold' }}
+        style={{
+          height: '40px',
+          fontWeight: 'bold',
+          color: 'white',
+          background: '#191919'
+        }}
         className="flex-center"
       >
         HEADER

@@ -66,3 +66,11 @@ canvas {
   height: auto; */
   background: #111;
 }
+
+.ant-tabs-tab-btn {
+  color: white !important;
+}
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: rgb(135, 208, 104) !important;
+  font-weight: 500;
+}

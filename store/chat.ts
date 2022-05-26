@@ -25,7 +25,8 @@ const initialState: ChatReduxState = {
   joinChatRoomList: [],
   roomCursor: [],
   joinedChatRoomData: [],
-  roomCursorList: []
+  roomCursorList: [],
+  roomRecentMessageList: []
 };
 
 const chat = createSlice({

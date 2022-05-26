@@ -6,14 +6,15 @@ const St = {
   RoomWrapper: styled.div`
     height: 40px;
     cursor: pointer;
-    background: ${(props) => (props.isInRoom ? '#ffc9c9' : '#191919')};
+    color: ${(props) =>
+      props.isInRoom ? 'rgb(135, 208, 104) !important;' : '#fff !important;'};
   `,
   RoomContainer: styled.div`
     width: 100%;
     text-align: left;
     font-weight: bold;
     height: 100%;
-    color: #fff;
+    // color: #fff;
   `
 };
 type RoomProps = {
@@ -55,6 +56,7 @@ const Room = ({ roomId, unreadCount }: RoomProps) => {
               </span>
             )}
           </span>
+          <span></span>
         </div>
       </St.RoomContainer>
     </St.RoomWrapper>

@@ -10,10 +10,10 @@ import { Button } from 'antd';
 const St = {
   ChatContainer: styled.div`
     width: 100%;
-    height: 100%;
+    height: calc(90vh - 40px);
     overflow-y: scroll;
     border-radius: 8px;
-    padding: 15px;
+    padding: 15px 15px 0 15px;
   `
 };
 
@@ -36,10 +36,10 @@ const ChatContainer = ({ messages, roomId, id, name }) => {
   };
 
   return (
-    <St.ChatContainer id="chat-container">
+    <St.ChatContainer id="chat-container" style={{ height: '' }}>
       <Button onClick={handleLeave}> 방나가기 </Button>
       <span>현재 방 {roomId} </span>
-      <ul id="messages" style={{ paddingLeft: '10px' }}>
+      <ul id="messages" style={{ paddingLeft: '10px', height: '100%' }}>
         {messages?.map((messageInfo, index) => (
           <ChatMessage messageInfo={messageInfo} key={index} id={id} />
         ))}

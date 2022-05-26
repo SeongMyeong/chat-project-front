@@ -9,7 +9,7 @@ const St = {
   RoomContainerWrapper: styled.div`
     padding: 0px 20px;
     width: 200px;
-    background: #191919;
+    background: rgb(64, 63, 63);
   `
 };
 const { TabPane } = Tabs;
@@ -19,7 +19,11 @@ const RoomContainer = ({ allChatRoomList, joinChatRoomList }) => {
   const roomCursorList = useSelector(
     (state: RootState) => state.chat.roomCursorList
   );
-
+  const joinedChatRoomData = useSelector(
+    (state: RootState) => state.chat.joinedChatRoomData
+  );
+  console.log('roomCursorList= ', roomCursorList);
+  console.log('joinedChatRoomData= ', joinedChatRoomData);
   return (
     <St.RoomContainerWrapper>
       {/* <MakeRoom /> */}

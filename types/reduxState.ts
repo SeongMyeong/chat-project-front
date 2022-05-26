@@ -8,6 +8,7 @@ export interface ChatReduxState {
   joinChatRoomList: any[];
   roomCursor: any[];
   roomCursorList: any[];
+  roomRecentMessageList: any[];
   joinedChatRoomData: any;
 }
 

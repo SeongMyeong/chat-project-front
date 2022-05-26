@@ -1,10 +1,13 @@
+import { Descriptions } from 'antd';
+
 const ProjectInformation = () => {
   return (
-    <div>
-      <div>프로젝트 정보</div>
-      <div>컴포넌트 플래그 정보 </div>
-      <div>코드</div>
-      <div>프로젝트 정보</div>
+    <div style={{ padding: '1rem' }}>
+      <Descriptions title="프로젝트 인포"></Descriptions>
+      <div>프로젝트 code : xxxxxx-xxxxx</div>
+      <div>시나리오 : xxxxx</div>
+      <div>프로젝트 flag : xxxx|xxxx|xxxx</div>
+      <div>프로젝트 권한 : 1</div>
     </div>
   );
 };

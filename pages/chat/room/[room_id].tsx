@@ -16,6 +16,7 @@ import {
   joinChatRoom,
   leaveChatRoom
 } from 'lib/api/room';
+import ProjectInformation from 'components/project/ProjectInformation';
 import usePrevious from 'hooks/usePrevious';
 import styled from 'styled-components';
 import { useSelector, RootState } from 'store';
@@ -25,7 +26,7 @@ const St = {
   ChatContainerWrapper: styled.div`
     width: 1280px;
     overflow: hidden;
-    height: 90vh;
+    height: calc(100vh - 40px);
   `
 };
 const Roompage = () => {
@@ -166,12 +167,12 @@ const Roompage = () => {
     dispatch(modalActions.openModal());
   };
   return (
-    <div className="flex">
+    <div className="flex" style={{ height: '100%' }}>
       <RoomContainer
         allChatRoomList={allChatRoomList}
         joinChatRoomList={joinChatRoomList}
       />
-      <button onClick={handleProjectModal}>모달</button>
+      {/* <button onClick={handleProjectModal}>모달</button> */}
       {/* <MakeRoom /> */}
       <div className="flex-column">
         <St.ChatContainerWrapper>
@@ -192,6 +193,12 @@ const Roompage = () => {
             value={msg}
           />
           <Button onClick={sendMessage}>전송</Button>
+        </div>
+      </div>
+      <div>
+        <div>해당 프로젝트 info</div>
+        <div>
+          <ProjectInformation />
         </div>
       </div>
     </div>
