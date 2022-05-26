@@ -14,8 +14,11 @@ const St = {
 };
 const { TabPane } = Tabs;
 
-const RoomContainer = ({ allChatRoomList, joinChatRoomList }) => {
+const RoomContainer = ({ joinChatRoomList }) => {
   const callback = () => {};
+  const allChatRoomList = useSelector(
+    (state: RootState) => state.chat.allChatRoomList
+  );
   const roomCursorList = useSelector(
     (state: RootState) => state.chat.roomCursorList
   );

@@ -21,7 +21,8 @@ function MyApp({ Component, pageProps }: any) {
   // useSocket();
   useEffect(() => {
     //alert('hello');
-    const socketIo = io('http://localhost:5001/room');
+    //const socketIo = io('http://localhost:5001/room');
+    const socketIo = io(`${process.env.NEXT_PUBLIC_DEV_CHAT_HOST}/room`);
     console.log('socketIo connection= ', socketIo);
     dispatch(chatActions.setSocket(socketIo));
 
@@ -38,6 +39,15 @@ function MyApp({ Component, pageProps }: any) {
 
     socketIo.on(SOCKET_EVENT.JOIN_ROOM, (msg) => {
       console.log('[seo] JOIN_ROOM ', msg);
+      const fecthAllChatRoom = async () => {
+        const res = await getAllChatRoomList();
+        const { data, status } = res;
+        dispatch(chatActions.setAllChatRoomList(data.result));
+      };
+      fecthAllChatRoom();
+    });
+    socketIo.on(SOCKET_EVENT.CREATE_ROOM, (msg) => {
+      console.log('[seo] CREATE_ROOM ', msg);
       const fecthAllChatRoom = async () => {
         const res = await getAllChatRoomList();
         const { data, status } = res;

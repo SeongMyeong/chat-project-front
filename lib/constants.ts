@@ -3,7 +3,8 @@ export const SOCKET_EVENT = {
   JOIN_ROOM: 'join room',
   LEAVE_ROOM: 'leave room',
   USER_COUNT: 'usercount',
-  ROOM_CURSOR: 'room cursor'
+  ROOM_CURSOR: 'room cursor',
+  CREATE_ROOM: 'create room'
 };
 
 // message : {

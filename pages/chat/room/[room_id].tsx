@@ -168,10 +168,7 @@ const Roompage = () => {
   };
   return (
     <div className="flex" style={{ height: '100%' }}>
-      <RoomContainer
-        allChatRoomList={allChatRoomList}
-        joinChatRoomList={joinChatRoomList}
-      />
+      <RoomContainer joinChatRoomList={joinChatRoomList} />
       {/* <button onClick={handleProjectModal}>모달</button> */}
       {/* <MakeRoom /> */}
       <div className="flex-column">

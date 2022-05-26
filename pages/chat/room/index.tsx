@@ -1,16 +1,14 @@
 import styled from 'styled-components';
 import Room from 'components/room/Room';
+import { useSelector, RootState } from 'store';
+import RoomContainer from 'components/room/RoomContainer';
 
-const RoomContainer = () => {
+const RoomWrapper = () => {
   return (
     <div>
-      <Room roomId="1" />
-      <Room roomId="2" />
-      <Room roomId="3" />
-      <Room roomId="4" />
-      <Room roomId="5" />
+      <RoomContainer />
     </div>
   );
 };
 
-export default RoomContainer;
+export default RoomWrapper;
